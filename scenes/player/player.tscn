@@ -1,0 +1,69 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/player/player.gd" id="1_player"]
+[ext_resource type="Script" path="res://scripts/player/vitals.gd" id="2_vitals"]
+[ext_resource type="PackedScene" path="res://scenes/interactables/orb.tscn" id="3_orb"]
+[ext_resource type="Script" path="res://scripts/world/layer_depth_visuals.gd" id="4_depth"]
+[ext_resource type="Script" path="res://scripts/world/layer_context.gd" id="5_layer_context"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape_player"]
+radius = 12.0
+height = 48.0
+
+[sub_resource type="ParticlesMaterial" id="ParticlesMaterial_blood"]
+direction = Vector3(0, -1, 0)
+spread = 180.0
+initial_velocity_min = 35.0
+initial_velocity_max = 115.0
+gravity = Vector3(0, 150, 0)
+scale_min = 2.0
+scale_max = 5.0
+color = Color(0.62, 0.04, 0.12, 0.85)
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 1
+collision_mask = 1
+script = ExtResource("1_player")
+
+[node name="LayerContext" type="Node" parent="."]
+script = ExtResource("5_layer_context")
+mode = 2
+initial_dynamic_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -24)
+shape = SubResource("CapsuleShape_player")
+
+[node name="DepthVisuals" type="Node2D" parent="."]
+script = ExtResource("4_depth")
+
+[node name="Visuals" type="Polygon2D" parent="DepthVisuals"]
+polygon = PackedVector2Array(-11, -47, 11, -47, 15, -31, 13, -5, 8, 0, -8, 0, -13, -5, -15, -31)
+color = Color(0.847059, 0.827451, 0.909804, 1)
+
+[node name="Face" type="Polygon2D" parent="DepthVisuals"]
+position = Vector2(0, -35)
+polygon = PackedVector2Array(-7, -7, 7, -7, 6, 5, -6, 5)
+color = Color(0.18, 0.13, 0.25, 1)
+
+[node name="BloodParticles" type="CPUParticles2D" parent="."]
+position = Vector2(0, -20)
+emitting = false
+amount = 14
+lifetime = 0.45
+one_shot = true
+explosiveness = 1.0
+local_coords = false
+process_material = SubResource("ParticlesMaterial_blood")
+
+[node name="Vitals" type="Node" parent="."]
+script = ExtResource("2_vitals")
+
+[node name="Orb" parent="." instance=ExtResource("3_orb")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -140)
+position_smoothing_enabled = true
+position_smoothing_speed = 5.0
+
+[connection signal="context_changed" from="LayerContext" to="." method="_on_layer_context_changed"]

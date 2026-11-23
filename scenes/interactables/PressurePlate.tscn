@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://reer4hvouvmh"]
+
+[ext_resource type="Script" uid="uid://beqxicbiw2xqb" path="res://scripts/interactables/pressure_plate.gd" id="1_plate"]
+[ext_resource type="Script" uid="uid://xmsogs0kfn6a" path="res://scripts/world/layer_depth_visuals.gd" id="2_depth"]
+[ext_resource type="Script" uid="uid://c77i8bd5vraaj" path="res://scripts/world/layer_context.gd" id="3_context"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape_detection"]
+resource_local_to_scene = true
+size = Vector2(64, 8)
+
+[node name="PressurePlate" type="Node2D" unique_id=408436381]
+script = ExtResource("1_plate")
+
+[node name="LayerContext" type="Node" parent="." unique_id=882326368]
+script = ExtResource("3_context")
+
+[node name="Visuals" type="Node2D" parent="." unique_id=1575346667]
+script = ExtResource("2_depth")
+
+[node name="Base" type="Polygon2D" parent="Visuals" unique_id=1943591472]
+color = Color(0.24, 0.18, 0.32, 1)
+polygon = PackedVector2Array(-32, 0, 32, 0, 32, 8, -32, 8)
+
+[node name="ButtonTop" type="Polygon2D" parent="Visuals" unique_id=718974836]
+z_index = 1
+position = Vector2(0, -2)
+color = Color(0.58, 0.42, 0.76, 1)
+polygon = PackedVector2Array(-24.32, -8, 24.32, -8, 24.32, 0, -24.32, 0)
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=1793310204]
+collision_layer = 0
+collision_mask = 0
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=1607126332]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape_detection")

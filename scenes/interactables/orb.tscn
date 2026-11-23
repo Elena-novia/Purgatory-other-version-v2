@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/interactables/orb.gd" id="1_orb"]
+[ext_resource type="Script" path="res://scripts/world/layer_depth_visuals.gd" id="2_depth"]
+
+[node name="Orb" type="Node2D"]
+z_index = 10
+script = ExtResource("1_orb")
+
+[node name="DepthVisuals" type="Node2D" parent="."]
+script = ExtResource("2_depth")
+
+[node name="Glow" type="Polygon2D" parent="DepthVisuals"]
+polygon = PackedVector2Array(0, -22, 6, -18, 12, -12, 15, -5, 16, 0, 15, 5, 12, 12, 6, 18, 0, 22, -6, 18, -12, 12, -15, 5, -16, 0, -15, -5, -12, -12, -6, -18)
+color = Color(0.4, 0.75, 1, 0.17)
+
+[node name="Core" type="Polygon2D" parent="DepthVisuals"]
+polygon = PackedVector2Array(0, -9, 6, -6, 9, 0, 6, 6, 0, 9, -6, 6, -9, 0, -6, -6)
+color = Color(0.67, 0.92, 1, 1)

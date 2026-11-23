@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://bh8mmevsdg2k2"]
+
+[ext_resource type="Script" uid="uid://dlhxcdjj5sl6x" path="res://scripts/world/gameplay_layer.gd" id="1_layer"]
+[ext_resource type="Script" uid="uid://bgm47xjvs4v3s" path="res://scripts/world/terrain_polygon.gd" id="2_terrain"]
+
+[node name="FrontLayer" type="StaticBody2D" unique_id=1748574083]
+z_index = 2
+position = Vector2(0, 520)
+collision_mask = 0
+script = ExtResource("1_layer")
+parallax_scroll_factor = 1.15
+depth_scale = 1.0
+depth_tint = Color(0.662745, 0.403922, 1, 1)
+tint_strength = 0.0
+
+[node name="Ground" type="CollisionPolygon2D" parent="." unique_id=734046015]
+position = Vector2(640, 0)
+polygon = PackedVector2Array(-850, 0, 850, 0, 850, 520, -850, 520)
+script = ExtResource("2_terrain")
+supports_other_layers = true
+fill_color = Color(0.32, 0.28, 0.37, 1)
+edge_color = Color(0.63, 0.49, 0.48, 1)
+
+[node name="ParallaxDecoration" type="Node2D" parent="." unique_id=483320322]
+position = Vector2(0, -520)
+scale = Vector2(1.12, 1.12)
+
+[node name="DepthDetails" type="Node2D" parent="ParallaxDecoration"]

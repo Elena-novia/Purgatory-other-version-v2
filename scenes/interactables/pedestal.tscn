@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/interactables/orb_receiver.gd" id="1_receiver"]
+[ext_resource type="Script" path="res://scripts/world/layer_context.gd" id="2_context"]
+[ext_resource type="Script" path="res://scripts/world/layer_depth_visuals.gd" id="3_visuals"]
+[ext_resource type="Script" path="res://scripts/world/layer_object_mount.gd" id="4_mount"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape_pedestal"]
+size = Vector2(46, 38)
+
+[node name="Pedestal" type="Node2D"]
+z_index = 3
+script = ExtResource("1_receiver")
+
+[node name="Body" type="StaticBody2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body"]
+position = Vector2(0, -19)
+shape = SubResource("RectangleShape_pedestal")
+
+[node name="Mount" type="Node" parent="."]
+script = ExtResource("4_mount")
+
+[node name="DepthVisuals" type="Node2D" parent="."]
+script = ExtResource("3_visuals")
+
+[node name="Visual" type="Polygon2D" parent="DepthVisuals"]
+polygon = PackedVector2Array(-23, 0, 23, 0, 17, -38, -17, -38)
+color = Color(0.47, 0.39, 0.55, 1)
+
+[node name="Top" type="Polygon2D" parent="DepthVisuals"]
+position = Vector2(0, -38)
+polygon = PackedVector2Array(-26, -5, 26, -5, 26, 5, -26, 5)
+color = Color(0.76, 0.66, 0.83, 1)
+
+[node name="OrbAnchor" type="Marker2D" parent="DepthVisuals"]
+position = Vector2(0, -55)
+
+[node name="Indicator" type="Polygon2D" parent="DepthVisuals"]
+position = Vector2(0, -38)
+polygon = PackedVector2Array(0, -3, 3, 0, 0, 3, -3, 0)
+color = Color(0.521569, 0.847059, 0.917647, 1)
+
+[node name="LayerContext" type="Node" parent="."]
+script = ExtResource("2_context")

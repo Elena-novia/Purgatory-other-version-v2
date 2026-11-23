@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/interactables/push_box.gd" id="1_box"]
+[ext_resource type="Script" path="res://scripts/world/layer_depth_visuals.gd" id="2_depth"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape_box"]
+size = Vector2(32, 32)
+
+[node name="Box" type="RigidBody2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_box")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape_box")
+
+[node name="DepthVisuals" type="Node2D" parent="."]
+position = Vector2(0, 16)
+script = ExtResource("2_depth")
+
+[node name="Artwork" type="Node2D" parent="DepthVisuals"]
+position = Vector2(0, -16)
+
+[node name="Visual" type="Polygon2D" parent="DepthVisuals/Artwork"]
+polygon = PackedVector2Array(-17, -17, 17, -17, 17, 17, -17, 17)
+color = Color(0.47, 0.35, 0.42, 1)
+
+[node name="Compartment" type="Polygon2D" parent="DepthVisuals/Artwork"]
+position = Vector2(0, -2)
+polygon = PackedVector2Array(-12, -10, 12, -10, 10, 9, -10, 9)
+color = Color(0.16, 0.12, 0.2, 1)
+
+[node name="FrontRim" type="Polygon2D" parent="DepthVisuals/Artwork"]
+z_index = 2
+polygon = PackedVector2Array(-17, 9, 17, 9, 17, 17, -17, 17)
+color = Color(0.36, 0.25, 0.34, 1)
+
+[node name="OrbAnchor" type="Marker2D" parent="DepthVisuals/Artwork"]
+position = Vector2(0, 0)

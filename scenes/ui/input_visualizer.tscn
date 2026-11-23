@@ -1,0 +1,124 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/input_visualizer.gd" id="1_visualizer"]
+
+[node name="InputVisualizer" type="Control"]
+custom_minimum_size = Vector2(151, 150)
+offset_right = 151.0
+offset_bottom = 150.0
+mouse_filter = 2
+script = ExtResource("1_visualizer")
+
+[node name="Background" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Contents" type="VBoxContainer" parent="Background"]
+layout_mode = 2
+theme_override_constants/separation = 6
+mouse_filter = 2
+
+[node name="MovementKeys" type="GridContainer" parent="Background/Contents"]
+layout_mode = 2
+columns = 3
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
+mouse_filter = 2
+
+[node name="EmptyTopLeft" type="Control" parent="Background/Contents/MovementKeys"]
+custom_minimum_size = Vector2(38, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="KeyW" type="PanelContainer" parent="Background/Contents/MovementKeys"]
+custom_minimum_size = Vector2(38, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Background/Contents/MovementKeys/KeyW"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "W"
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+
+[node name="EmptyTopRight" type="Control" parent="Background/Contents/MovementKeys"]
+custom_minimum_size = Vector2(38, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="KeyA" type="PanelContainer" parent="Background/Contents/MovementKeys"]
+custom_minimum_size = Vector2(38, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Background/Contents/MovementKeys/KeyA"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "A"
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+
+[node name="KeyS" type="PanelContainer" parent="Background/Contents/MovementKeys"]
+custom_minimum_size = Vector2(38, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Background/Contents/MovementKeys/KeyS"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "S"
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+
+[node name="KeyD" type="PanelContainer" parent="Background/Contents/MovementKeys"]
+custom_minimum_size = Vector2(38, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Background/Contents/MovementKeys/KeyD"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "D"
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+
+[node name="ActionKeys" type="HBoxContainer" parent="Background/Contents"]
+layout_mode = 2
+theme_override_constants/separation = 5
+mouse_filter = 2
+
+[node name="KeySpace" type="PanelContainer" parent="Background/Contents/ActionKeys"]
+custom_minimum_size = Vector2(90, 32)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Background/Contents/ActionKeys/KeySpace"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "SPACE"
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+
+[node name="KeyE" type="PanelContainer" parent="Background/Contents/ActionKeys"]
+custom_minimum_size = Vector2(38, 32)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Background/Contents/ActionKeys/KeyE"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "E"
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
