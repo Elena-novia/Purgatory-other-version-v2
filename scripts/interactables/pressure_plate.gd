@@ -8,6 +8,9 @@ signal state_changed(is_pressed: bool)
 const CONTACT_DISTANCE := 2.0
 const BOX_RISE_TOLERANCE := 1.0
 
+@export_group("Layer")
+@export_enum("Inherit from parent", "Front", "Middle", "Back") var configured_layer := 0
+
 @export_group("Activation")
 @export var player_can_activate := true
 @export var box_can_activate := true
@@ -63,6 +66,18 @@ var current_layer: int:
 var _animation: Tween
 var _support_query := PhysicsTestMotionParameters2D.new()
 var _support_result := PhysicsTestMotionResult2D.new()
+
+func _enter_tree() -> void:
+	# Configure the child before LayerContext enters the tree and resolves its
+	# initial context. Zero preserves the existing inherited-layer behavior.
+	var context := get_node_or_null("LayerContext") as LayerContext
+	if context == null:
+		return
+	if configured_layer == 0:
+		context.mode = LayerContext.Mode.INHERITED
+	else:
+		context.mode = LayerContext.Mode.FIXED
+		context.fixed_layer = configured_layer
 
 func _ready() -> void:
 	# Keep the mount position from the layer scene. Its tint and nonuniform
