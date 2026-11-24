@@ -9,8 +9,11 @@ enum OrbState { FOLLOWING, STORED, RETURNING }
 @export var default_scale := Vector2.ONE
 @export_range(1, 3, 1) var current_layer := 1:
 	get:
-		if state == OrbState.STORED and is_instance_valid(stored_receiver) and stored_receiver is PushBox:
-			return stored_receiver.current_layer
+		if state == OrbState.STORED and is_instance_valid(stored_receiver):
+			if stored_receiver is PushBox:
+				return (stored_receiver as PushBox).current_layer
+			if stored_receiver is OrbReceiver:
+				return (stored_receiver as OrbReceiver).current_layer
 		return current_layer
 	set(value):
 		current_layer = clampi(value, 1, 3)
@@ -30,6 +33,9 @@ func _ready() -> void:
 	player = get_parent()
 	vanish_glow.material = (vanish_glow.material as ShaderMaterial).duplicate()
 	add_to_group("magic_orb")
+	if player is PlayerController:
+		player.layer_changed.connect(_on_player_layer_changed)
+		current_layer = player.current_layer
 	depth_visuals.show_layer(current_layer, true)
 
 func _process(delta: float) -> void:
@@ -94,6 +100,8 @@ func toggle_release_or_retrieve() -> void:
 		else:
 			scale = default_scale
 			z_index = 10
+			if nearest is OrbReceiver:
+				depth_visuals.inherit_depth_from((nearest as OrbReceiver).depth_visuals)
 		global_position = nearest.orb_anchor.global_position
 		player.vitals.orb_is_away = true
 
@@ -104,10 +112,18 @@ func _retrieve() -> void:
 	reparent(player, true)
 	player.vitals.orb_is_away = false
 	state = OrbState.RETURNING
+	if player is PlayerController:
+		current_layer = player.current_layer
 	scale = default_scale
 	z_index = 10
 	depth_visuals.inherit_depth_from(null)
 
 func reset_to_player() -> void:
 	_retrieve()
+
+func _on_player_layer_changed(layer_number: int) -> void:
+	# Stored orbs use the receiver's depth profile; following or returning orbs
+	# take the same logical layer profile as the player.
+	if state != OrbState.STORED:
+		current_layer = layer_number
 

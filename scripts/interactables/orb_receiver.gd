@@ -5,6 +5,7 @@ signal orb_placed(receiver: OrbReceiver)
 signal orb_removed(receiver: OrbReceiver)
 
 @export var accepts_orb := true
+@export_enum("Inherit from parent", "Front", "Middle", "Back") var configured_layer := 0
 var current_layer: int:
 	get:
 		return layer_context.logical_layer
@@ -15,6 +16,18 @@ var current_layer: int:
 @onready var orb_anchor: Marker2D = $DepthVisuals/OrbAnchor
 @onready var indicator: Polygon2D = $DepthVisuals/Indicator
 var has_orb := false
+
+func _enter_tree() -> void:
+	# Configure the child before LayerContext enters the tree and resolves its
+	# initial context. Zero preserves the existing inherited-layer behavior.
+	var context := get_node_or_null("LayerContext") as LayerContext
+	if context == null:
+		return
+	if configured_layer == 0:
+		context.mode = LayerContext.Mode.INHERITED
+	else:
+		context.mode = LayerContext.Mode.FIXED
+		context.fixed_layer = configured_layer
 
 func _ready() -> void:
 	add_to_group("orb_receivers")

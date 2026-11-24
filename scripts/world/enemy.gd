@@ -5,6 +5,7 @@ class_name EnemyHazard
 @export var patrol_distance := 90.0
 @export var patrol_speed := 0.75
 @export_range(0.05, 5.0, 0.05) var contact_damage_interval := 0.8
+@export_enum("Inherit from parent", "Front", "Middle", "Back") var configured_layer := 0
 
 @onready var layer_context: LayerContext = $LayerContext
 @onready var depth_visuals: LayerDepthVisuals = $DepthVisuals
@@ -12,6 +13,18 @@ class_name EnemyHazard
 
 var _time := 0.0
 var _contact_damage_remaining: Dictionary = {}
+
+func _enter_tree() -> void:
+	# Configure the child before LayerContext enters the tree and resolves its
+	# initial context. Zero preserves the existing inherited-layer behavior.
+	var context := get_node_or_null("LayerContext") as LayerContext
+	if context == null:
+		return
+	if configured_layer == 0:
+		context.mode = LayerContext.Mode.INHERITED
+	else:
+		context.mode = LayerContext.Mode.FIXED
+		context.fixed_layer = configured_layer
 
 func _ready() -> void:
 	layer_context.context_changed.connect(_apply_context)
