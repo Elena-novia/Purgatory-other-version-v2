@@ -21,16 +21,16 @@ enum CheckpointRecovery { POSITION_ONLY, VOID_SURVIVAL, DEATH }
 @export var layer_transition_offset := 38.0
 @export var transition_clearance := 4.0
 @export_range(300.0, 520.0, 1.0) var knockback_strength := 390.0
-@export_range(0.0, 2000.0, 10.0) var knockback_acceleration := 680.0
-@export_range(0.0, 400.0, 5.0) var damage_knockback_launch_impulse := 160.0
-@export_range(280.0, 420.0, 1.0) var damage_jump_impulse := 320.0
-@export_range(0.05, 1.0, 0.01) var damage_knockback_duration := 0.28
+@export_range(0.0, 2000.0, 10.0) var knockback_acceleration := 480.0
+@export_range(0.0, 400.0, 5.0) var damage_knockback_launch_impulse := 90.0
+@export_range(200.0, 420.0, 1.0) var damage_jump_impulse := 250.0
+@export_range(0.05, 1.0, 0.01) var damage_knockback_duration := 0.22
 @export_range(0.0, 1.0, 0.01) var damage_knockback_gravity_scale := 0.78
 @export_range(0.0, 2000.0, 10.0) var damage_knockback_air_control_acceleration := 1200.0
-@export_range(200.0, 600.0, 10.0) var damage_knockback_max_horizontal_speed := 460.0
+@export_range(200.0, 600.0, 10.0) var damage_knockback_max_horizontal_speed := 320.0
 @export_range(0.0, 1000.0, 5.0) var damage_knockback_horizontal_damping := 80.0
 @export_range(0.0, 1.0, 0.01) var damage_knockback_recovery_duration := 0.30
-@export_range(0.0, 3000.0, 10.0) var damage_knockback_recovery_acceleration := 900.0
+@export_range(0.0, 3000.0, 10.0) var damage_knockback_recovery_acceleration := 720.0
 @export_range(0.16, 0.24, 0.01) var landing_shake_duration := 0.20
 @export_range(3.0, 5.0, 0.1) var landing_shake_intensity := 4.0
 @export_range(0.0, 1.0, 0.01, "suffix:s") var depth_transition_duration := LayerDepthVisuals.DEFAULT_TRANSITION_DURATION:
@@ -40,11 +40,12 @@ enum CheckpointRecovery { POSITION_ONLY, VOID_SURVIVAL, DEATH }
 			depth_visuals.transition_duration = value
 
 @onready var depth_visuals: LayerDepthVisuals = $DepthVisuals
-@onready var visuals: Polygon2D = $DepthVisuals/Visuals
+@onready var visuals: AnimatedSprite2D = $DepthVisuals/PlayerSprite
 @onready var vitals: PlayerVitals = $Vitals
 @onready var camera: Camera2D = $Camera2D
 @onready var magic_orb: MagicOrb = $Orb
 @onready var body_shape: CollisionShape2D = $CollisionShape2D
+@onready var walking_particles: CPUParticles2D = $WalkingParticles
 var layer_context: LayerContext:
 	get:
 		return $LayerContext
@@ -66,7 +67,7 @@ var checkpoint_layer := 1
 var checkpoint_progression := 0
 var facing_direction := 1.0
 var _damage_flash_remaining := 0.0
-var _base_color := Color("d8d3e8")
+var _base_color := Color.WHITE
 var _damage_knockback_remaining := 0.0
 var _damage_knockback_recovery_remaining := 0.0
 var _damage_knockback_direction := 0.0
@@ -155,9 +156,10 @@ func _physics_process(delta: float) -> void:
 		_intentional_jump = true
 	if _damage_flash_remaining > 0.0:
 		_damage_flash_remaining -= delta
-		visuals.color = Color(1.0, 0.48, 0.48).lerp(_base_color, 1.0 - _damage_flash_remaining / 0.22)
+		visuals.modulate = Color(1.0, 0.48, 0.48).lerp(_base_color, 1.0 - _damage_flash_remaining / 0.22)
 	else:
-		visuals.color = _base_color
+		visuals.modulate = _base_color
+
 	var synchronized_box := _get_stored_box()
 	var fallback_layer := 0
 	if not _layer_transitions_suspended and not was_on_floor and not _intentional_jump and velocity.y > 0.0:
@@ -184,9 +186,40 @@ func _physics_process(delta: float) -> void:
 		if _damage_knockback_recovery_remaining <= 0.0:
 			_damage_knockback_recovery_remaining = damage_knockback_recovery_duration
 		_start_landing_shake()
+	_update_player_animation(direction, was_on_floor)
+	_update_walking_particles(direction)
 	if global_position.y > VOID_Y:
 		fall_into_void()
 	_process_layer_steps()
+
+func _update_walking_particles(direction: float) -> void:
+	var is_walking := is_on_floor() and visuals.animation == &"Walking" and not is_zero_approx(direction)
+	walking_particles.emitting = is_walking
+	if is_walking:
+		walking_particles.position.x = -facing_direction * 6.0
+
+func _update_player_animation(direction: float, was_on_floor: bool) -> void:
+	visuals.flip_h = facing_direction < 0.0
+	if not is_on_floor():
+		if visuals.animation != &"Jump":
+			visuals.play(&"Jump")
+		return
+	if not was_on_floor:
+		visuals.play(&"Jump-To-Land")
+		return
+	if visuals.animation == &"Jump-To-Land" and visuals.is_playing():
+		return
+	if not is_zero_approx(direction):
+		if visuals.animation != &"Walking":
+			visuals.play(&"Walking")
+		return
+	if visuals.animation == &"Walking":
+		visuals.play(&"Walking-To-Idle")
+		return
+	if visuals.animation == &"Walking-To-Idle" and visuals.is_playing():
+		return
+	if visuals.animation != &"Idle":
+		visuals.play(&"Idle")
 
 func _find_fallback_layer(motion: Vector2, synchronized_box: PushBox) -> int:
 	# Prefer the active layer anywhere under the player's next position,
@@ -326,6 +359,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			_queue_keyboard_layer_step(-1)
 		elif event.physical_keycode == KEY_E:
 			orb_toggle_requested.emit()
+		elif event.physical_keycode == KEY_R:
+			magic_orb.toggle_visibility()
 
 func try_change_layer(direction: int) -> void:
 	if absi(direction) == 1 and not request_layer_step(direction):

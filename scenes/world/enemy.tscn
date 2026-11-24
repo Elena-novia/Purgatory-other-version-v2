@@ -35,3 +35,5 @@ color = Color(1, 0.49, 0.32, 1)
 
 [node name="LayerContext" type="Node" parent="."]
 script = ExtResource("2_context")
+mode = 1
+fixed_layer = 2

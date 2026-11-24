@@ -24,6 +24,8 @@ func _ready() -> void:
 	player.layer_input_backlog_full.connect(hud.show_layer_input_backlog_full)
 	player.damaged.connect(hud.show_damage)
 	player.vitals.values_changed.connect(hud.update_vitals)
+	player.vitals.sanity_drain_changed.connect(hud.set_sanity_draining)
+	hud.set_sanity_draining(player.vitals.orb_is_away)
 	player.vitals.died.connect(_on_player_died)
 	player.vitals._emit_values()
 	_update_layer_parallax()

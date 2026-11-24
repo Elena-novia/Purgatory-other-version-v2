@@ -1,7 +1,7 @@
 extends Area2D
 class_name EnemyHazard
 
-@export var damage := 0.1
+@export_range(0.0, 1.0, 0.01) var damage := 0.05
 @export var patrol_distance := 90.0
 @export var patrol_speed := 0.75
 @export_range(0.05, 5.0, 0.05) var contact_damage_interval := 0.8

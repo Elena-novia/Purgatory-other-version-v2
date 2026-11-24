@@ -1,0 +1,14 @@
+[gd_resource type="SpriteFrames" load_steps=7 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/orb/orb 00.png" id="orb_00"]
+[ext_resource type="Texture2D" path="res://assets/orb/orb 01.png" id="orb_01"]
+[ext_resource type="Texture2D" path="res://assets/orb/orb 02.png" id="orb_02"]
+[ext_resource type="Texture2D" path="res://assets/orb/orb 03.png" id="orb_03"]
+[ext_resource type="Texture2D" path="res://assets/orb/orb 04.png" id="orb_04"]
+[ext_resource type="Texture2D" path="res://assets/orb/orb 05.png" id="orb_05"]
+
+[resource]
+animations = [{
+"frames": [{"duration": 1.0, "texture": ExtResource("orb_00")}, {"duration": 1.0, "texture": ExtResource("orb_01")}, {"duration": 1.0, "texture": ExtResource("orb_02")}, {"duration": 1.0, "texture": ExtResource("orb_03")}, {"duration": 1.0, "texture": ExtResource("orb_04")}, {"duration": 1.0, "texture": ExtResource("orb_05")}],
+"loop": true, "name": &"default", "speed": 8.0
+}]

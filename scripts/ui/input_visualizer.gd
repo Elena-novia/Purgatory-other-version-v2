@@ -17,6 +17,7 @@ class_name InputVisualizer
 	"D": $Background/Contents/MovementKeys/KeyD,
 	"SPACE": $Background/Contents/ActionKeys/KeySpace,
 	"E": $Background/Contents/ActionKeys/KeyE,
+	"R": $Background/Contents/ActionKeys/KeyR,
 }
 
 var _key_codes: Dictionary = {}
@@ -41,6 +42,7 @@ func _ready() -> void:
 		"D": _mapped_physical_key("move_right", KEY_D),
 		"SPACE": _mapped_physical_key("jump", KEY_SPACE),
 		"E": KEY_E,
+		"R": KEY_R,
 	}
 	for key_label in _keys:
 		var key_panel := _keys[key_label] as PanelContainer

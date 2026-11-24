@@ -1,0 +1,146 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://dtj0b4rdxjr5p"]
+
+[ext_resource type="Texture2D" uid="uid://dccheoh70k6rg" path="res://assets/player/idle/Character Idle Animation 00.png" id="tex_1"]
+[ext_resource type="Texture2D" uid="uid://b4ejpy6aer5c7" path="res://assets/player/walking/Character Walk Animation 00.png" id="tex_2"]
+[ext_resource type="Texture2D" uid="uid://bacoum0b6axor" path="res://assets/player/walking/Character Walk Animation 01.png" id="tex_3"]
+[ext_resource type="Texture2D" uid="uid://dpjqneasp6lhr" path="res://assets/player/walking/Character Walk Animation 02.png" id="tex_4"]
+[ext_resource type="Texture2D" uid="uid://dvmm8m7d8l8uk" path="res://assets/player/walking/Character Walk Animation 03.png" id="tex_5"]
+[ext_resource type="Texture2D" uid="uid://djgdybrn0828y" path="res://assets/player/walking/Character Walk Animation 04.png" id="tex_6"]
+[ext_resource type="Texture2D" uid="uid://docf0h7vgop3j" path="res://assets/player/walking/Character Walk Animation 05.png" id="tex_7"]
+[ext_resource type="Texture2D" uid="uid://dr8p3igwpuebo" path="res://assets/player/walking/Character Walk Animation 06.png" id="tex_8"]
+[ext_resource type="Texture2D" uid="uid://xo5am6v5ewir" path="res://assets/player/walking/Character Walk Animation 07.png" id="tex_9"]
+[ext_resource type="Texture2D" uid="uid://bf4md5hkfp174" path="res://assets/player/walking-to-idle/Walk to Idle 00.png" id="tex_10"]
+[ext_resource type="Texture2D" uid="uid://ddusixu7sa6om" path="res://assets/player/walking-to-idle/Walk to Idle 01.png" id="tex_11"]
+[ext_resource type="Texture2D" uid="uid://dq6jw00ntyboe" path="res://assets/player/walking-to-idle/Walk to Idle 02.png" id="tex_12"]
+[ext_resource type="Texture2D" uid="uid://cbk2bfdu4x4mx" path="res://assets/player/walking-to-idle/Walk to Idle 03.png" id="tex_13"]
+[ext_resource type="Texture2D" uid="uid://cwpwquofpebag" path="res://assets/player/walking-to-idle/Walk to Idle 04.png" id="tex_14"]
+[ext_resource type="Texture2D" uid="uid://d1pd6ixhkdux6" path="res://assets/player/jumping/Character Jump 00.png" id="tex_15"]
+[ext_resource type="Texture2D" uid="uid://c8hg6v1nmuxlo" path="res://assets/player/jumping/Character Jump 01.png" id="tex_16"]
+[ext_resource type="Texture2D" uid="uid://p3yweg80mlgy" path="res://assets/player/jumping/Character Jump 02.png" id="tex_17"]
+[ext_resource type="Texture2D" uid="uid://bdtvu20j6rbdt" path="res://assets/player/jumping/Character Jump 03.png" id="tex_18"]
+[ext_resource type="Texture2D" uid="uid://hpohdci38f6t" path="res://assets/player/jumping/Character Jump 04.png" id="tex_19"]
+[ext_resource type="Texture2D" uid="uid://c8w8x178wdf10" path="res://assets/player/jumping/Character Jump 05.png" id="tex_20"]
+[ext_resource type="Texture2D" uid="uid://frxyyws084h1" path="res://assets/player/jumping-to-land/Jump to Land 00.png" id="tex_21"]
+[ext_resource type="Texture2D" uid="uid://dwkjuhx3b6ikb" path="res://assets/player/jumping-to-land/Jump to Land 01.png" id="tex_22"]
+[ext_resource type="Texture2D" uid="uid://byfj23ij02cqd" path="res://assets/player/jumping-to-land/Jump to Land 02.png" id="tex_23"]
+[ext_resource type="Texture2D" uid="uid://beidf60rlemk1" path="res://assets/player/jumping-to-land/Jump to Land 03.png" id="tex_24"]
+[ext_resource type="Texture2D" uid="uid://dfkijc8h8s0ar" path="res://assets/player/idle/Character Idle Animation 01.png" id="tex_25"]
+[ext_resource type="Texture2D" uid="uid://blc0gvdxyjbkl" path="res://assets/player/idle/Character Idle Animation 02.png" id="tex_26"]
+[ext_resource type="Texture2D" uid="uid://bo0au7twnkxyj" path="res://assets/player/idle/Character Idle Animation 03.png" id="tex_27"]
+[ext_resource type="Texture2D" uid="uid://came3yuekewb7" path="res://assets/player/idle/Character Idle Animation 04.png" id="tex_28"]
+[ext_resource type="Texture2D" uid="uid://bt37a02imvlh0" path="res://assets/player/idle/Character Idle Animation 05.png" id="tex_29"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 150.0,
+"texture": ExtResource("tex_1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_25")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_26")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_27")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_28")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_29")
+}],
+"loop": 1,
+"name": &"Idle",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("tex_15")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_16")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_17")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_18")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_19")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_20")
+}],
+"loop": 0,
+"name": &"Jump",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("tex_21")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_22")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_23")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_24")
+}],
+"loop": 0,
+"name": &"Jump-To-Land",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("tex_2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_9")
+}],
+"loop": 1,
+"name": &"Walking",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("tex_10")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_11")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_12")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_13")
+}, {
+"duration": 1.0,
+"texture": ExtResource("tex_14")
+}],
+"loop": 0,
+"name": &"Walking-To-Idle",
+"speed": 15.0
+}]

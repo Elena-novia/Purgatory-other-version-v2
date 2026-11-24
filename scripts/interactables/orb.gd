@@ -18,13 +18,17 @@ enum OrbState { FOLLOWING, STORED, RETURNING }
 			depth_visuals.show_layer(current_layer)
 
 @onready var depth_visuals: LayerDepthVisuals = $DepthVisuals
+@onready var vanish_effect: Node2D = $VanishEffect
+@onready var vanish_glow: ColorRect = $VanishEffect/Glow
 var state := OrbState.FOLLOWING
 var player: Node2D
 var stored_receiver: Node2D
 var _phase := 0.0
+var _vanish_tween: Tween
 
 func _ready() -> void:
 	player = get_parent()
+	vanish_glow.material = (vanish_glow.material as ShaderMaterial).duplicate()
 	add_to_group("magic_orb")
 	depth_visuals.show_layer(current_layer, true)
 
@@ -37,6 +41,33 @@ func _process(delta: float) -> void:
 			state = OrbState.FOLLOWING
 	elif is_instance_valid(stored_receiver):
 		global_position = stored_receiver.orb_anchor.global_position
+
+func toggle_visibility() -> void:
+	if depth_visuals.visible:
+		_play_vanish_effect()
+		depth_visuals.hide()
+	else:
+		if _vanish_tween and _vanish_tween.is_running():
+			_vanish_tween.kill()
+		vanish_effect.hide()
+		depth_visuals.show()
+
+func _play_vanish_effect() -> void:
+	if _vanish_tween and _vanish_tween.is_running():
+		_vanish_tween.kill()
+	vanish_effect.global_position = global_position
+	var material := vanish_glow.material as ShaderMaterial
+	material.set_shader_parameter("fade", 1.0)
+	vanish_effect.show()
+	_vanish_tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	_vanish_tween.tween_method(_set_vanish_fade, 1.0, 0.0, 0.55)
+	_vanish_tween.tween_callback(_hide_vanish_effect)
+
+func _set_vanish_fade(value: float) -> void:
+	(vanish_glow.material as ShaderMaterial).set_shader_parameter("fade", value)
+
+func _hide_vanish_effect() -> void:
+	vanish_effect.hide()
 
 func toggle_release_or_retrieve() -> void:
 	if state != OrbState.FOLLOWING:

@@ -1,7 +1,24 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scripts/interactables/orb.gd" id="1_orb"]
 [ext_resource type="Script" path="res://scripts/world/layer_depth_visuals.gd" id="2_depth"]
+[ext_resource type="SpriteFrames" path="res://scenes/interactables/orb_animation.tres" id="3_animation"]
+[ext_resource type="Shader" path="res://assets/art/orb_vanish_glow.gdshader" id="4_vanish_shader"]
+
+[sub_resource type="Gradient" id="Gradient_OrbLight"]
+offsets = PackedFloat32Array(0.0, 0.25, 0.65, 1.0)
+colors = PackedColorArray(1.0, 0.82, 0.58, 0.38, 1.0, 0.68, 0.4, 0.24, 1.0, 0.55, 0.28, 0.08, 1.0, 0.45, 0.2, 0.0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_OrbLight"]
+gradient = SubResource("Gradient_OrbLight")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0.0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_OrbVanish"]
+shader = ExtResource("4_vanish_shader")
 
 [node name="Orb" type="Node2D"]
 z_index = 10
@@ -10,10 +27,27 @@ script = ExtResource("1_orb")
 [node name="DepthVisuals" type="Node2D" parent="."]
 script = ExtResource("2_depth")
 
-[node name="Glow" type="Polygon2D" parent="DepthVisuals"]
-polygon = PackedVector2Array(0, -22, 6, -18, 12, -12, 15, -5, 16, 0, 15, 5, 12, 12, 6, 18, 0, 22, -6, 18, -12, 12, -15, 5, -16, 0, -15, -5, -12, -12, -6, -18)
-color = Color(0.4, 0.75, 1, 0.17)
+[node name="Sprite" type="AnimatedSprite2D" parent="DepthVisuals"]
+scale = Vector2(0.27, 0.27)
+sprite_frames = ExtResource("3_animation")
+animation = &"default"
+autoplay = "default"
 
-[node name="Core" type="Polygon2D" parent="DepthVisuals"]
-polygon = PackedVector2Array(0, -9, 6, -6, 9, 0, 6, 6, 0, 9, -6, 6, -9, 0, -6, -6)
-color = Color(0.67, 0.92, 1, 1)
+[node name="OrbLight" type="PointLight2D" parent="DepthVisuals"]
+texture = SubResource("GradientTexture2D_OrbLight")
+color = Color(1.0, 0.72, 0.43, 1.0)
+energy = 0.4
+texture_scale = 0.75
+
+[node name="VanishEffect" type="Node2D" parent="."]
+visible = false
+z_index = 11
+top_level = true
+
+[node name="Glow" type="ColorRect" parent="VanishEffect"]
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = 24.0
+mouse_filter = 2
+material = SubResource("ShaderMaterial_OrbVanish")
